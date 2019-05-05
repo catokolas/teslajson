@@ -71,6 +71,8 @@ in the [Tesla JSON API](http://docs.timdorr.apiary.io/).
 	v.data_request('charge_state')
 	v.command('charge_start')
 
+See more examples in Examples folder
+
 ## Credits
 Many thanks to [Tim Dorr](http://timdorr.com) for documenting the Tesla JSON API.
 This would not be possible without his work.
