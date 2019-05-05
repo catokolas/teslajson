@@ -120,7 +120,7 @@ class Connection(object):
                 opener = build_opener(handler)
         else:
             opener = build_opener()
-        resp = opener.open(req)
+        resp = opener.open(req, timeout=10)
         charset = resp.info().get('charset', 'utf-8')
         return json.loads(resp.read().decode(charset))
         
