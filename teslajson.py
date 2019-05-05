@@ -53,7 +53,11 @@ class Connection(object):
         self.proxy_url = proxy_url
         self.proxy_user = proxy_user
         self.proxy_password = proxy_password
-        tesla_client = self.__open("/raw/0a8e0xTJ", baseurl="http://pastebin.com")
+
+        # cato: # don't call this all the time and can we really trust url from pastebin?
+        #tesla_client = self.__open("/raw/0a8e0xTJ", baseurl="http://pastebin.com")
+        tesla_client = json.loads('{"v1": {"id": "81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384", "secret": "c7257eb71a564034f9419ee651c7d0e5f7aa6bfbd18bafb5c5c033b093bb2fa3", "baseurl": "https://owner-api.teslamotors.com", "api": "/api/1/"}}')
+
         current_client = tesla_client['v1']
         self.baseurl = current_client['baseurl']
         if not self.baseurl.startswith('https:') or not self.baseurl.endswith(('.teslamotors.com','.tesla.com')):
