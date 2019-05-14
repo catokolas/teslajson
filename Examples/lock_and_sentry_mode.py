@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+##
+# Disclaimer: make sure that no human or animal is inside the car when
+# activating Sentry mode!
+# tip: Sentry mode can not be activated when Dog mode is active or in
+# this script when the car is unlocked
+
 import os, sys
 sys.path.append(os.path.abspath(os.path.expanduser("~/git/teslajson")))
 import teslajson
@@ -100,11 +106,14 @@ for cmd in cmds:
                 # check if drive_state is parked and car is locked and not sentry mode active
                 if (drive_state['shift_state'] == 'P' or drive_state['shift_state'] is None):
                     if (vehicle_state['locked'] == True and vehicle_state['sentry_mode'] != True):
-                        msg = ftoday+" car is parked and locked - activating Sentry Mode\n"+"lat,lon: "+str(drive_state['latitude'])+","+str(drive_state['longitude'])
-                        params = {'on': True}
-                        res = v.command('set_sentry_mode', params)
-                        print msg
-                    else:
-                        print ftoday+" car is parked, locked and Sentry Mode is enabled"
+                        if (vehicle_state['is_user_present'] == False):
+                            msg = ftoday+" car is parked and locked - activating Sentry Mode\n"+"lat,lon: "+str(drive_state['latitude'])+","+str(drive_state['longitude'])
+                            params = {'on': True}
+                            res = v.command('set_sentry_mode', params)
+                            if res["response"]["result"] != True:
+                                msg = ftoday+" car is parked and locked - but not activating Sentry Mode because: "+res["response"]["reason"]+"\n"+"lat,lon: "+str(drive_state['latitude'])+","+str(drive_state['longitude'])
+                            print msg
+                        else:
+                            print ftoday+" car is parked, locked and Sentry Mode is enabled"
 
 exit(0)
